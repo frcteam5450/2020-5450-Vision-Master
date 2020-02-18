@@ -161,11 +161,11 @@ public class TrackTarget implements Runnable {
 				
 			}
 			
-			SmartDashboard.putNumber("Bounding Rectangle Width", width);
+			/*SmartDashboard.putNumber("Bounding Rectangle Width", width);
 			SmartDashboard.putNumber("Bounding Rectangle Height", height);
 			SmartDashboard.putNumber("Distance to Target", distance);
 			SmartDashboard.putBoolean("Vision Viable?", visionViable);
-			SmartDashboard.putNumber("Angle to Target", angle);
+			SmartDashboard.putNumber("Angle to Target", angle);*/
 			
 			_distanceToTarget.setNumber(distance);
 			_angleToTarget.setNumber(angle);

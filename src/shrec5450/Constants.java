@@ -2,6 +2,7 @@ package shrec5450;
 
 import org.opencv.core.Scalar;
 import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 
 public class Constants {
 	/**
@@ -9,14 +10,16 @@ public class Constants {
 	 * Instances, subtables, entries
 	 */
 	public static final NetworkTableInstance inst = NetworkTableInstance.getDefault();
-	public static final NetworkTable table = inst.getTable("Vision"); 
+	//public static final NetworkTable table = inst.getTable("Vision"); 
 	public static final int teamNumber = 5450;
 	
+	public static final ShuffleboardTab tab = Shuffleboard.getTab("Vision");
+	
 	public static final NetworkTableEntry 
-	distanceToTarget = table.getEntry("Distance To Target"),
-	angleToTarget = table.getEntry("Angle To Target"),
-	distanceToBall = table.getEntry("Distance To Ball"),
-	angleToBall = table.getEntry("Angle To Ball");
+	distanceToTarget = tab.add("Distance To Target", 0).getEntry(),
+	angleToTarget = tab.add("Angle to Target", 0).getEntry(),
+	distanceToBall = tab.add("Distance to Ball", 0).getEntry(),
+	angleToBall = tab.add("Angle to Ball", 0).getEntry();
 	
 	/**
 	 * Vision Constants

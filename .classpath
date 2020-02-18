@@ -13,5 +13,12 @@
 	<classpathentry kind="lib" path="C:/Users/evang/Documents/Robotics/Raspberry Pi/WPILib Jars/wpiHal.jar"/>
 	<classpathentry kind="lib" path="C:/Users/evang/Documents/Robotics/Raspberry Pi/WPILib Jars/wpilibj.jar"/>
 	<classpathentry kind="lib" path="C:/Users/evang/Documents/Robotics/Raspberry Pi/WPILib Jars/wpiutil.jar"/>
+	<classpathentry kind="lib" path="/home/evang/Documents/Robotics/WPILIB Jars/cameraserver.jar"/>
+	<classpathentry kind="lib" path="/home/evang/Documents/Robotics/WPILIB Jars/cscore.jar"/>
+	<classpathentry kind="lib" path="/home/evang/Documents/Robotics/WPILIB Jars/ntcore.jar"/>
+	<classpathentry kind="lib" path="/home/evang/Documents/Robotics/WPILIB Jars/opencv-347.jar"/>
+	<classpathentry kind="lib" path="/home/evang/Documents/Robotics/WPILIB Jars/wpiHal.jar"/>
+	<classpathentry kind="lib" path="/home/evang/Documents/Robotics/WPILIB Jars/wpilibj.jar"/>
+	<classpathentry kind="lib" path="/home/evang/Documents/Robotics/WPILIB Jars/wpiutil.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
