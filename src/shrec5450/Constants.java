@@ -18,6 +18,7 @@ public class Constants {
 	public static final NetworkTableEntry 
 	distanceToTarget = tab.add("Distance To Target", 0).getEntry(),
 	angleToTarget = tab.add("Angle to Target", 0).getEntry(),
+	visionViable = tab.add("Vision Viable?", false).getEntry(),
 	distanceToBall = tab.add("Distance to Ball", 0).getEntry(),
 	angleToBall = tab.add("Angle to Ball", 0).getEntry();
 	

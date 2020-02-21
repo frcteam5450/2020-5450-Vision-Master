@@ -22,7 +22,7 @@ import java.util.List;
 
 public class TrackTarget implements Runnable {
 	
-	private UsbCamera _cam;
+	private UsbCamera cam;
 	private CvSink sink;
 	private CvSource outputStream;
 	
@@ -30,25 +30,26 @@ public class TrackTarget implements Runnable {
 	private Mat output;
 	
 	private int
-	_camPort,
-	_width,
-	_height,
-	_brightness;
+	camPort,
+	width,
+	height,
+	brightness;
 	
 	private Scalar
-	_upperBound,
-	_lowerBound,
-	_boundingBoxColor;
+	upperBound,
+	lowerBound,
+	boundingBoxColor;
 	
 	private double
-	_fov,
-	_targetSize,
-	_targetSideRatio,
-	_targetSideRatioError;
+	fov,
+	targetSize,
+	targetSideRatio,
+	targetSideRatioError;
 	
 	private NetworkTableEntry
-	_distanceToTarget,
-	_angleToTarget;
+	distanceToTarget,
+	angleToTarget,
+	visionViable;
 	
 	public TrackTarget(
 			int camPort,
@@ -64,29 +65,31 @@ public class TrackTarget implements Runnable {
 			Scalar boundingBoxColor,
 			NetworkTableEntry distanceToTarget,
 			NetworkTableEntry angleToTarget,
+			NetworkTableEntry visionViable,
 			String streamName
 			) {
-		_camPort = camPort;
-		_width = width;
-		_height = height;
-		_brightness = brightness;
-		_fov = fov;
-		_targetSize = targetSize;
-		_targetSideRatio = targetSideRatio;
-		_targetSideRatioError = targetSideRatioError;
-		_upperBound = upperBound;
-		_lowerBound = lowerBound;
-		_boundingBoxColor = boundingBoxColor;
-		_distanceToTarget = distanceToTarget;
-		_angleToTarget = angleToTarget;
+		this.camPort = camPort;
+		this.width = width;
+		this.height = height;
+		this.brightness = brightness;
+		this.fov = fov;
+		this.targetSize = targetSize;
+		this.targetSideRatio = targetSideRatio;
+		this.targetSideRatioError = targetSideRatioError;
+		this.upperBound = upperBound;
+		this.lowerBound = lowerBound;
+		this.boundingBoxColor = boundingBoxColor;
+		this.distanceToTarget = distanceToTarget;
+		this.visionViable = visionViable;
+		this.angleToTarget = angleToTarget;
 		
-		_cam = CameraServer.getInstance().startAutomaticCapture(_camPort);
-		_cam.setResolution(_width, _height);
-		_cam.setBrightness(_brightness);
+		cam = CameraServer.getInstance().startAutomaticCapture(camPort);
+		cam.setResolution(width, height);
+		cam.setBrightness(brightness);
 		print("Initialized and started camera!");
 		
 		sink = CameraServer.getInstance().getVideo();
-		outputStream = CameraServer.getInstance().putVideo(streamName, _width, _height);
+		outputStream = CameraServer.getInstance().putVideo(streamName, width, height);
 		print("Started Processed Stream");
 		
 		source = new Mat();
@@ -108,7 +111,7 @@ public class TrackTarget implements Runnable {
 			Mat temp = new Mat();
 			
 			Imgproc.cvtColor(source, temp, Imgproc.COLOR_BGR2HSV);
-			Core.inRange(temp, _lowerBound, _upperBound, temp);
+			Core.inRange(temp, lowerBound, upperBound, temp);
 			print("Thresholded frame");
 			
 			List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
@@ -141,20 +144,20 @@ public class TrackTarget implements Runnable {
 				
 				Point pt1 = rect.tl();
 				Point pt2 = rect.br();
-				Imgproc.rectangle(output, pt1, pt2, _boundingBoxColor);
+				Imgproc.rectangle(output, pt1, pt2, boundingBoxColor);
 				width = rect.width;
 				height = rect.height;
 				
 				double sideRatio = (double) rect.width/rect.height;
 				SmartDashboard.putNumber("side ratio", sideRatio);
-				if (_targetSideRatio - _targetSideRatioError < sideRatio && _targetSideRatio + _targetSideRatioError > sideRatio) {
+				if (targetSideRatio - targetSideRatioError < sideRatio && targetSideRatio + targetSideRatioError > sideRatio) {
 					
-					double halfTotalWidth = ((_targetSize * _width) / width) / 2;
-					distance = halfTotalWidth / (Math.tan(Math.toRadians(_fov / 2)));
+					double halfTotalWidth = ((targetSize * width) / width) / 2;
+					distance = halfTotalWidth / (Math.tan(Math.toRadians(fov / 2)));
 					
 					double centerX = rect.x + (rect.width / 2);
-					double offset = (_width / 2) - centerX;
-					double offsetIn = (halfTotalWidth * offset) / (_width / 2);
+					double offset = (width / 2) - centerX;
+					double offsetIn = (halfTotalWidth * offset) / (width / 2);
 					angle = Math.toDegrees(Math.atan(offsetIn / distance));
 					visionViable = true;
 				}
@@ -167,8 +170,9 @@ public class TrackTarget implements Runnable {
 			SmartDashboard.putBoolean("Vision Viable?", visionViable);
 			SmartDashboard.putNumber("Angle to Target", angle);*/
 			
-			_distanceToTarget.setNumber(distance);
-			_angleToTarget.setNumber(angle);
+			this.visionViable.setBoolean(visionViable);
+			distanceToTarget.setNumber(distance);
+			angleToTarget.setNumber(angle);
 			
 			outputStream.putFrame(output);
 		}
