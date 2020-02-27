@@ -133,7 +133,7 @@ public class TrackTarget implements Runnable {
 			output = source;
 			
 			double distance = -1;
-			double angle = -1;
+			double angle = -100;
 			double width = -1;
 			double height = -1;
 			boolean visionViable = false;
@@ -149,7 +149,7 @@ public class TrackTarget implements Runnable {
 				height = rect.height;
 				
 				double sideRatio = (double) rect.width/rect.height;
-				SmartDashboard.putNumber("side ratio", sideRatio);
+				//SmartDashboard.putNumber("side ratio", sideRatio);
 				if (targetSideRatio - targetSideRatioError < sideRatio && targetSideRatio + targetSideRatioError > sideRatio) {
 					
 					double halfTotalWidth = ((targetSize * width) / width) / 2;

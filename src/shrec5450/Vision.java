@@ -33,6 +33,7 @@ public class Vision {
 				boundBoxColor,
 				distanceToTarget,
 				angleToTarget,
+				visionViable,
 				"Track Vision Target"
 				)).start();
 		
