@@ -1,16 +1,16 @@
 package shrec5450;
 
-/*import edu.wpi.first.cameraserver.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.cscore.*;*/
 import org.opencv.core.*;
-/*import org.opencv.videoio.*;
-import org.opencv.imgproc.*;
-import org.opencv.imgcodecs.*;
-import java.lang.*;
-import java.util.*;
-import java.io.*;*/
 import static shrec5450.Constants.*;
+
+/**
+ * Version 0.1.0 | February 12, 2020
+ * Vision Program is tested and Working
+ * This program can track an FRC Vision target, and
+ * calculate the distance and angle to it.
+ * @author evang
+ *
+ */
 
 public class Vision {
 
