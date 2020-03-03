@@ -1,6 +1,10 @@
 package shrec5450;
 
 import org.opencv.core.*;
+
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.*;
+
 import static shrec5450.Constants.*;
 
 /**
@@ -53,6 +57,9 @@ public class Vision {
 				angleToBall,
 				"Track Power Cell"
 				)).start();*/
+		//UsbCamera cam = CameraServer.getInstance().startAutomaticCapture(1);
+		//cam.setResolution(640, 360);
+		
 	}
 
 }

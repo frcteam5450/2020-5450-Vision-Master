@@ -110,8 +110,8 @@ public class TrackTarget implements Runnable {
 			
 			Mat temp = new Mat();
 			
-			Imgproc.cvtColor(source, temp, Imgproc.COLOR_BGR2HSV);
-			Core.inRange(temp, lowerBound, upperBound, temp);
+			//Imgproc.cvtColor(source, temp, Imgproc.COLOR_BGR2HSV);
+			Core.inRange(source, lowerBound, upperBound, temp);
 			print("Thresholded frame");
 			
 			List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
@@ -149,18 +149,19 @@ public class TrackTarget implements Runnable {
 				height = rect.height;
 				
 				double sideRatio = (double) rect.width/rect.height;
-				//SmartDashboard.putNumber("side ratio", sideRatio);
+				SmartDashboard.putNumber("side ratio", sideRatio);
 				if (targetSideRatio - targetSideRatioError < sideRatio && targetSideRatio + targetSideRatioError > sideRatio) {
-					
-					double halfTotalWidth = ((targetSize * width) / width) / 2;
-					distance = halfTotalWidth / (Math.tan(Math.toRadians(fov / 2)));
-					
-					double centerX = rect.x + (rect.width / 2);
-					double offset = (width / 2) - centerX;
-					double offsetIn = (halfTotalWidth * offset) / (width / 2);
-					angle = Math.toDegrees(Math.atan(offsetIn / distance));
 					visionViable = true;
 				}
+				double halfTotalWidth = ((targetSize * width) / width) / 2;
+				distance = halfTotalWidth / (Math.tan(Math.toRadians(fov / 2)));
+				
+				distance = Math.sqrt((81 * 81) - (distance * distance));
+				
+				double centerX = rect.x + (rect.width / 2);
+				double offset = (width / 2) - centerX;
+				double offsetIn = (halfTotalWidth * offset) / (width / 2);
+				angle = Math.toDegrees(Math.atan(offsetIn / distance));
 				
 			}
 			

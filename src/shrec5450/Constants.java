@@ -18,7 +18,7 @@ public class Constants {
 	public static final NetworkTableEntry 
 	distanceToTarget = tab.add("Distance To Target", 0).getEntry(),
 	angleToTarget = tab.add("Angle to Target", 0).getEntry(),
-	visionViable = tab.add("Vision Viable?", false).getEntry(),
+	visionViable = tab.add("Distance Viable?", false).getEntry(),
 	distanceToBall = tab.add("Distance to Ball", 0).getEntry(),
 	angleToBall = tab.add("Angle to Ball", 0).getEntry();
 	
@@ -27,7 +27,7 @@ public class Constants {
 	 */
 	public static final int
 	camPort = 0,
-	camPortBall = 1,
+	//camPortBall = 1,
 	width = 640,
 	height = 360,
 	brightness = 0,
@@ -43,8 +43,8 @@ public class Constants {
 	ballSideRatioError = ballSideRatio * 0.1;
 	
 	public static final Scalar
-	lowerBound = new Scalar(50, 126, 140),
-	upperBound = new Scalar(130, 255, 255),
+	lowerBound = new Scalar(200, 193, 0),
+	upperBound = new Scalar(255, 255, 243),
 	lowerBoundBall = new Scalar(0, 0, 0),
 	upperBoundBall = new Scalar(0, 0, 0),
 	boundBoxColor = new Scalar(0, 255, 255);
