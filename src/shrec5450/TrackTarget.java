@@ -175,6 +175,10 @@ public class TrackTarget implements Runnable {
 			distanceToTarget.setNumber(distance);
 			angleToTarget.setNumber(angle);
 			
+			print("Is Viable?" + visionViable);
+			print("Distance" + distance);
+			
+			
 			outputStream.putFrame(output);
 		}
 	}

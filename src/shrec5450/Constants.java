@@ -43,7 +43,7 @@ public class Constants {
 	ballSideRatioError = ballSideRatio * 0.1;
 	
 	public static final Scalar
-	lowerBound = new Scalar(200, 193, 0),
+	lowerBound = new Scalar(190, 153, 0),
 	upperBound = new Scalar(255, 255, 243),
 	lowerBoundBall = new Scalar(0, 0, 0),
 	upperBoundBall = new Scalar(0, 0, 0),
