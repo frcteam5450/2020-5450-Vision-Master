@@ -110,8 +110,8 @@ public class TrackTarget implements Runnable {
 			
 			Mat temp = new Mat();
 			
-			//Imgproc.cvtColor(source, temp, Imgproc.COLOR_BGR2HSV);
-			Core.inRange(source, lowerBound, upperBound, temp);
+			Imgproc.cvtColor(source, temp, Imgproc.COLOR_BGR2HSV);
+			Core.inRange(temp, lowerBound, upperBound, temp);
 			print("Thresholded frame");
 			
 			List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
@@ -134,8 +134,8 @@ public class TrackTarget implements Runnable {
 			
 			double distance = -1;
 			double angle = -100;
-			double width = -1;
-			double height = -1;
+			double targetWidthPX = -1;
+			double targetHeightPX = -1;
 			boolean visionViable = false;
 			
 			if (selectedContour != -1) {
@@ -145,31 +145,36 @@ public class TrackTarget implements Runnable {
 				Point pt1 = rect.tl();
 				Point pt2 = rect.br();
 				Imgproc.rectangle(output, pt1, pt2, boundingBoxColor);
-				width = rect.width;
-				height = rect.height;
+				targetWidthPX = rect.width;
+				targetHeightPX = rect.height;
 				
 				double sideRatio = (double) rect.width/rect.height;
 				SmartDashboard.putNumber("side ratio", sideRatio);
 				if (targetSideRatio - targetSideRatioError < sideRatio && targetSideRatio + targetSideRatioError > sideRatio) {
 					visionViable = true;
+					
+					double halfTotalWidth = (width * (targetSize / targetWidthPX)) / 2;
+					double hypDistance = halfTotalWidth / (Math.tan(Math.toRadians(fov / 2)));
+					
+					distance = Math.sqrt((hypDistance * hypDistance) - (81 * 81));
+					
+					SmartDashboard.putNumber("Half Width", halfTotalWidth);
+					SmartDashboard.putNumber("Hyp Distance", hypDistance);
+					
+					double centerX = rect.x + (rect.width / 2);
+					double offset = (width / 2) - centerX;
+					double offsetIn = (halfTotalWidth * offset) / (width / 2);
+					angle = Math.toDegrees(Math.atan(offsetIn / distance));
 				}
-				double halfTotalWidth = ((targetSize * width) / width) / 2;
-				distance = halfTotalWidth / (Math.tan(Math.toRadians(fov / 2)));
 				
-				distance = Math.sqrt((81 * 81) - (distance * distance));
-				
-				double centerX = rect.x + (rect.width / 2);
-				double offset = (width / 2) - centerX;
-				double offsetIn = (halfTotalWidth * offset) / (width / 2);
-				angle = Math.toDegrees(Math.atan(offsetIn / distance));
 				
 			}
 			
-			/*SmartDashboard.putNumber("Bounding Rectangle Width", width);
+			SmartDashboard.putNumber("Bounding Rectangle Width", width);
 			SmartDashboard.putNumber("Bounding Rectangle Height", height);
 			SmartDashboard.putNumber("Distance to Target", distance);
 			SmartDashboard.putBoolean("Vision Viable?", visionViable);
-			SmartDashboard.putNumber("Angle to Target", angle);*/
+			SmartDashboard.putNumber("Angle to Target", angle);
 			
 			this.visionViable.setBoolean(visionViable);
 			distanceToTarget.setNumber(distance);
